@@ -20,7 +20,7 @@ template "#{node['graphite']['home']}/conf/carbon.conf" do
     :cache_query_interface      => node["graphite"]["carbon"]["cache_query_interface"],
     :log_updates                => node["graphite"]["carbon"]["log_updates"]
   )
-  notifies :restart, "service[carbon-cache]"
+  notifies :restart, resources(:service => 'carbon-cache')
 end
 
 template "#{node['graphite']['home']}/conf/storage-schemas.conf" do
@@ -28,7 +28,7 @@ template "#{node['graphite']['home']}/conf/storage-schemas.conf" do
   source "storage-schemas.conf.erb"
   owner node["apache"]["user"]
   group node["apache"]["group"]
-  notifies :restart, "service[carbon-cache]"
+  notifies :restart, resources(:service => 'carbon-cache')
 end
 
 template "#{node['graphite']['home']}/conf/storage-aggregation.conf" do
@@ -36,7 +36,7 @@ template "#{node['graphite']['home']}/conf/storage-aggregation.conf" do
   source "storage-aggregation.conf.erb"
   owner node["apache"]["user"]
   group node["apache"]["group"]
-  notifies :restart, "service[carbon-cache]"
+  notifies :restart, resources(:service => 'carbon-cache')
 end
 
 execute "chown" do
