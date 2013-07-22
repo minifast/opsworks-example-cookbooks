@@ -8,6 +8,15 @@ python_pip "zope.interface" do
   action :install
 end
 
+template "/etc/init/carbon-cache.conf" do
+  mode "0644"
+  source "carbon-cache.conf.erb"
+  variables(
+    :home => node["graphite"]["home"],
+    :version => node["graphite"]["version"]
+  )
+end
+
 service "carbon-cache" do
   provider Chef::Provider::Service::Upstart
   action [ :enable, :start ]
@@ -50,15 +59,6 @@ execute "chown" do
     f = File.stat("#{node['graphite']['home']}/storage")
     f.uid == 0 && f.gid == 0
   end
-end
-
-template "/etc/init/carbon-cache.conf" do
-  mode "0644"
-  source "carbon-cache.conf.erb"
-  variables(
-    :home => node["graphite"]["home"],
-    :version => node["graphite"]["version"]
-  )
 end
 
 logrotate_app "carbon" do
