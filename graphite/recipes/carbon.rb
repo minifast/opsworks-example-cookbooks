@@ -19,7 +19,7 @@ end
 
 service "carbon-cache" do
   provider Chef::Provider::Service::Upstart
-  action [ :enable, :start ]
+  action :nothing
 end
 
 template "#{node['graphite']['home']}/conf/carbon.conf" do
@@ -67,4 +67,9 @@ logrotate_app "carbon" do
   frequency "daily"
   rotate 7
   create "644 root root"
+end
+
+service "carbon-cache" do
+  provider Chef::Provider::Service::Upstart
+  action [ :enable, :start ]
 end
