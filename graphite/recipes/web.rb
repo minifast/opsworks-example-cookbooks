@@ -10,7 +10,7 @@ python_pip "django-tagging" do
   action :install
 end
 
-%w{ pycairo-devel pycairo python-devel python-memcached python-rrdtool mod_wsgi }.each do |pkg|
+%w{ pycairo-devel pycairo python-devel python-memcached rrdtool-python mod_wsgi }.each do |pkg|
   package pkg do
     action :install
   end
