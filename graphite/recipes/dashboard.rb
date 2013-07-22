@@ -7,7 +7,7 @@ elsif ["fedora", "rhel"].include?(node['platform_family'])
   include_recipe "build-essential"
 
   if platform?("amazon")
-    packages = %w(bitmap Django django-tagging pycairo python-memcached rrdtool-python)
+    packages = %w(bitmap Django14 python-django-tagging pycairo python-memcached rrdtool-python)
   else
     packages = %w(bitmap bitmap-fonts Django django-tagging pycairo python-memcached rrdtool-python)
   end
@@ -30,7 +30,7 @@ template "#{node['graphite']['home']}/conf/graphTemplates.conf" do
   source "graphTemplates.conf.erb"
   owner node["apache"]["user"]
   group node["apache"]["group"]
-  notifies :restart, "service[apache2]"
+  notifies :restart, resources(:service => 'apache2')
 end
 
 template "#{node['graphite']['home']}/webapp/graphite/local_settings.py" do
@@ -44,7 +44,7 @@ template "#{node['graphite']['home']}/webapp/graphite/local_settings.py" do
     :timezone       => node["graphite"]["dashboard"]["timezone"],
     :memcache_hosts => node["graphite"]["dashboard"]["memcache_hosts"]
   )
-  notifies :restart, "service[apache2]"
+  notifies :restart, resources(:service => 'apache2')
 end
 
 apache_site "000-default" do
