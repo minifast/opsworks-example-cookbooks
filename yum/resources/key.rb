@@ -18,7 +18,7 @@
 #
 
 actions :add, :remove
-default_action :add
+default_action :add  if defined?(default_action) # Chef > 10.8
 
 attribute :key, :kind_of => String, :name_attribute => true
 attribute :url, :kind_of => String, :default => nil
