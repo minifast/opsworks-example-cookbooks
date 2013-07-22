@@ -7,7 +7,7 @@ elsif ["fedora", "rhel"].include?(node['platform_family'])
   include_recipe "build-essential"
 
   if platform?("amazon")
-    packages = %w(python-devel.noarch pycairo.x86_64 Django.noarch django-tagging.noarch python-twisted.noarch python-zope-interface.x86_64 fontconfig.x86_64 fontconfig-devel.x86_64 mod_wsgi.x86_64 python-pip.noarch pytz pyparsing)
+    packages = %w(bitmap Django django-tagging pycairo python-memcached rrdtool-python)
   else
     packages = %w(bitmap bitmap-fonts Django django-tagging pycairo python-memcached rrdtool-python)
   end
@@ -16,9 +16,7 @@ else
 end
 
 packages.each do |graphite_package|
-  package graphite_package do
-    action :install
-  end
+  package graphite_package
 end
 
 python_pip "graphite-web" do
