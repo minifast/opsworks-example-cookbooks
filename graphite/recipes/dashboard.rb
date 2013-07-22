@@ -6,10 +6,11 @@ if node['platform_family'] == 'debian'
 elsif ["fedora", "rhel"].include?(node['platform_family'])
   include_recipe "build-essential"
 
-  packages = [ "bitmap", "bitmap-fonts", "Django", "django-tagging", "pycairo", "python-memcached", "rrdtool-python" ]
-
-  # bitmap-fonts not available
-  packages.reject! { |pkg| pkg == "bitmap-fonts" } if platform?("amazon")
+  if platform?("amazon")
+    packages = %w(python-devel.noarch pycairo.x86_64 Django.noarch django-tagging.noarch python-twisted.noarch python-zope-interface.x86_64 fontconfig.x86_64 fontconfig-devel.x86_64 mod_wsgi.x86_64 python-pip.noarch pytz pyparsing)
+  else
+    packages = %w(bitmap bitmap-fonts Django django-tagging pycairo python-memcached rrdtool-python)
+  end
 else
   packages = [ "python-cairo-dev", "python-django", "python-django-tagging", "python-memcache", "python-rrdtool" ]
 end
