@@ -8,6 +8,11 @@ python_pip "zope.interface" do
   action :install
 end
 
+service "carbon-cache" do
+  provider Chef::Provider::Service::Upstart
+  action [ :enable, :start ]
+end
+
 template "#{node['graphite']['home']}/conf/carbon.conf" do
   mode "0644"
   source "carbon.conf.erb"
@@ -62,9 +67,4 @@ logrotate_app "carbon" do
   frequency "daily"
   rotate 7
   create "644 root root"
-end
-
-service "carbon-cache" do
-  provider Chef::Provider::Service::Upstart
-  action [ :enable, :start ]
 end
