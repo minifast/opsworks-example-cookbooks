@@ -32,7 +32,7 @@ else
                   ["rhel"] =>     {"default" => ["python","python-devel"]},
                   ["freebsd"] =>  {"default" => ["python"]},
                   ["smartos"] =>  {"default" => ["python27"]},
-                  "default" =>  {"default" => ["python","python-dev"]}
+                  "default" =>  {"default" => ["python","python-devel"]}
                 )
 end
 
